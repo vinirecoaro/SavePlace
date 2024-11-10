@@ -8,6 +8,7 @@ export default function Layout() {
     headerStyle: {
       backgroundColor: '#f4511e',
     },
+    headerTintColor: '#FFF',
 
   }}>
     <Stack.Screen name='index'>
