@@ -6,7 +6,7 @@ import {FloatingAction} from 'react-native-floating-action'
 import { Container } from './styles'
 import Icon from 'react-native-vector-icons/FontAwesome'; 
 
-export default function HomeScreen(){
+export default function MapScreen(){
 
   const actions = [
     {
@@ -19,9 +19,9 @@ export default function HomeScreen(){
 
   const handleAddLoc = (name?: string) => {
     if (name) {
-      console.log('Ação pressionada:', name);
+      router.push('/add')
     } else {
-      console.log('Ação pressionada sem nome');
+      console.log('Falha ao iniciar tela de inclusão de nova localização');
     }
   };
 
