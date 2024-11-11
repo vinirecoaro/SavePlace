@@ -1,4 +1,6 @@
-import { Stack } from 'expo-router';
+import { router, Stack } from 'expo-router';
+import { TouchableOpacity, View } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default function Layout() {
   return <Stack
@@ -11,7 +13,22 @@ export default function Layout() {
     headerTintColor: '#FFF',
 
   }}>
-    <Stack.Screen name='index' options={{title : 'Mapa'}}/>
+    <Stack.Screen 
+    name='index' 
+    options={
+      { title : 'Mapa',
+        headerRight:() => (
+          <View>
+            <TouchableOpacity onPress={() => router.push('/list')}>
+                <Icon name="list" size={20} color="#FFF" style={{ marginRight: 10 }} />
+              </TouchableOpacity>
+          </View>
+        )
+      }
+
+    }
+    />
     <Stack.Screen name='add' options={{title : 'Adicionar Localização'}}/>
+    <Stack.Screen name='list' options={{title : 'Lista de Localizações'}}/>
   </Stack>;
 }
