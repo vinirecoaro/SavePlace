@@ -1,6 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Container } from "./styles";
 import {Text, TextInput, StyleSheet, Button, View} from 'react-native'
+import { useLocalization } from "@/contexts/localization";
+import { useEditLocalization } from "@/contexts/editLocalization";
 
 
 export default function AddScreen(){
@@ -12,6 +14,20 @@ export default function AddScreen(){
     const handleAddLoc = () => {
 
     }
+
+    const { localization } = useLocalization();
+    const { editLocalization } = useEditLocalization();
+
+    useEffect(() => {
+        if (editLocalization) {
+            if(localization != null){
+                setName(localization.name);
+                setLatitude(localization.latitude);
+                setLongitude(localization.longitude);
+                setPinColor(localization.pinColor);
+            }
+        }
+      }, []);
 
     return(
         <Container>
