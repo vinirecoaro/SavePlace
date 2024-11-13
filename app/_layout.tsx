@@ -1,10 +1,11 @@
-import { EditLocalizationProvider } from '@/contexts/editLocalization';
+import { EditLocalizationProvider, useEditLocalization } from '@/contexts/editLocalization';
 import { LocalizationProvider } from '@/contexts/localization';
 import { router, Stack } from 'expo-router';
 import { TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default function Layout() {
+
   return (
     <EditLocalizationProvider>
       <LocalizationProvider>
@@ -32,12 +33,12 @@ export default function Layout() {
             }
           }
           />
-          <Stack.Screen name='add' options={{title : 'Adicionar Localização'}}/>
+          <Stack.Screen name='add'/>
           <Stack.Screen name='list' options={{title : 'Lista de Localizações'}}/>
         </Stack>
       </LocalizationProvider>
     </EditLocalizationProvider>
     
       )
- 
 }
+

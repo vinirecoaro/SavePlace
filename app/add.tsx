@@ -3,6 +3,7 @@ import { Container } from "./styles";
 import {Text, TextInput, StyleSheet, Button, View} from 'react-native'
 import { useLocalization } from "@/contexts/localization";
 import { useEditLocalization } from "@/contexts/editLocalization";
+import { useNavigation } from "expo-router";
 
 
 export default function AddScreen(){
@@ -17,15 +18,19 @@ export default function AddScreen(){
 
     const { localization } = useLocalization();
     const { editLocalization } = useEditLocalization();
+    const navigation = useNavigation();
 
     useEffect(() => {
         if (editLocalization) {
+            navigation.setOptions({title:'Editar Tarefa'})
             if(localization != null){
                 setName(localization.name);
                 setLatitude(localization.latitude);
                 setLongitude(localization.longitude);
                 setPinColor(localization.pinColor);
             }
+        }else{
+            navigation.setOptions({title:'Adicionar Tarefa'})
         }
       }, []);
 
@@ -55,7 +60,7 @@ export default function AddScreen(){
             style={styles.button}
             >
                 <Button
-                    title="Adicionar"
+                    title="Salvar"
                     color="#f4511e"
                     onPress={handleAddLoc}
                 />
