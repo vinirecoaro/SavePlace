@@ -1,13 +1,17 @@
 import {router} from 'expo-router'
-import {Text} from 'react-native'
+import {StyleSheet} from 'react-native'
 import {FloatingAction} from 'react-native-floating-action'
 import { Container } from './styles'
 import Icon from 'react-native-vector-icons/FontAwesome'; 
 import { useEditLocalization } from '@/contexts/editLocalization'
+import MapView, { Marker, MapPressEvent, LatLng } from 'react-native-maps';
+import { useEffect, useState } from 'react';
+import * as Location from 'expo-location';
 
 export default function MapScreen(){
 
   const { setEditLocalization } = useEditLocalization();
+  const [location, setLocation] = useState<Location.LocationObject | null>(null);
 
   const actions = [
     {
@@ -27,11 +31,34 @@ export default function MapScreen(){
     }
   };
 
+  useEffect(() => {
+    (async () => {
+        let locationPermission = await Location.requestForegroundPermissionsAsync();
+        let { status } = locationPermission;
+        // let status = locationPermission.status;
+        if (status !== 'granted') {
+            console.log('A permissão foi negada!');
+        } else {
+            let location = await Location.getCurrentPositionAsync();
+            setLocation(location);
+        }
+    })();
+  }, []);
   
   return (
     
     <Container>
-      <Text>Mapa</Text>
+      <MapView 
+      style={styles.locationMapView}
+      initialRegion={{
+        latitude: location?.coords.latitude ?? 0,
+        longitude: location?.coords.longitude ?? 0,
+        latitudeDelta: 0,
+        longitudeDelta: 0,
+      }}
+      showsUserLocation
+      >
+      </MapView>
       <FloatingAction 
         color='#f4511e' 
         overrideWithAction={true}
@@ -43,4 +70,10 @@ export default function MapScreen(){
   )
 }
 
+const styles = StyleSheet.create({
+  locationMapView: {
+      width: "100%",
+      height: "100%",
+  }
+});
   
