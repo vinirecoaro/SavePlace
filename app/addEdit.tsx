@@ -6,9 +6,11 @@ import { useEditLocalization } from "@/contexts/editLocalization";
 import { useNavigation } from "expo-router";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Localization from "@/model/localization";
+import Icon from "react-native-vector-icons/FontAwesome";
+import { router } from "expo-router";
 
 
-export default function AddScreen(){
+export default function AddEditScreen(){
     const [name, setName] = useState('')
     const [latitude, setLatitude] = useState('')
     const [longitude, setLongitude] = useState('')
@@ -37,18 +39,47 @@ export default function AddScreen(){
         setPinColor('')
     }
 
+    const updateLoc = async () => {
+
+    }
+
+    const handleDeleteLoc = async (item : Localization) => {
+        let locsList : Localization[] = []
+        const locsStorage = await AsyncStorage.getItem('markers');
+        if (locsStorage){
+            locsList = JSON.parse(locsStorage)
+            const updatedList = locsList.filter(loc => loc.id !== localization!.id);
+            setLocs(updatedList);
+            await AsyncStorage.setItem('markers', JSON.stringify(updatedList));
+            router.back()
+        }
+
+    }
+
     const { localization } = useLocalization();
     const { editLocalization } = useEditLocalization();
     const navigation = useNavigation();
 
     useEffect(() => {
         if (editLocalization) {
-            navigation.setOptions({title:'Editar Tarefa'})
+            navigation.setOptions({
+                title:'Editar Tarefa',
+            })
             if(localization != null){
                 setName(localization.name);
                 setLatitude(localization.latitude);
                 setLongitude(localization.longitude);
                 setPinColor(localization.pinColor);
+                navigation.setOptions({
+                    headerRight: () => (
+                        <Icon
+                            name="trash"
+                            size={24}
+                            color="white"
+                            onPress={() => {handleDeleteLoc(localization)}} // Botão de deletar
+                        />
+                    ),
+                })
             }
         }else{
             navigation.setOptions({title:'Adicionar Tarefa'})

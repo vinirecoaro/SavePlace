@@ -25,7 +25,7 @@ export default function MapScreen(){
   const handleAddLoc = (name?: string) => {
     if (name) {
       setEditLocalization(false)
-      router.push('/add')
+      router.push('/addEdit')
     } else {
       console.log('Falha ao iniciar tela de inclusão de nova localização');
     }

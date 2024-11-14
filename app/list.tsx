@@ -2,10 +2,10 @@ import { FlatList, StyleSheet, TouchableOpacity, View, Text } from "react-native
 import { Container } from "./styles";
 import Icon from "react-native-vector-icons/FontAwesome";
 import Localization from "@/model/localization";
-import { router } from "expo-router";
+import { router, useFocusEffect } from "expo-router";
 import { useLocalization } from "@/contexts/localization";
 import { useEditLocalization } from "@/contexts/editLocalization";
-import { useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function LocalizationList(){
@@ -14,9 +14,11 @@ export default function LocalizationList(){
     const { setEditLocalization } = useEditLocalization();
     const [locs, setLocs] = useState<Array<Localization>>([])
 
-    useEffect(() => {
-      getLocations()
-    },[locs])
+    useFocusEffect(
+      useCallback(() => {
+          getLocations();
+      }, []) // Dependências vazias para garantir que só roda ao focar na tela
+  );
 
     const getLocations = async () => {
       let locsList : Localization[] = []
@@ -30,7 +32,7 @@ export default function LocalizationList(){
     const handleItemPress = (item : Localization) => {
       setLocalization(item);
       setEditLocalization(true)
-      router.push('/add');
+      router.push('/addEdit');
     };
 
     const ListItem = ( { item }: { item: Localization }) => {

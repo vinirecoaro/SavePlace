@@ -33,7 +33,7 @@ export default function Layout() {
             }
           }
           />
-          <Stack.Screen name='add'/>
+          <Stack.Screen name='addEdit'/>
           <Stack.Screen name='list' options={{title : 'Lista de Localizações'}}/>
         </Stack>
       </LocalizationProvider>
