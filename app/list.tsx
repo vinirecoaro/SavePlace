@@ -5,18 +5,27 @@ import Localization from "@/model/localization";
 import { router } from "expo-router";
 import { useLocalization } from "@/contexts/localization";
 import { useEditLocalization } from "@/contexts/editLocalization";
+import { useEffect, useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function LocalizationList(){
-    const locList: Localization[] = [
-        new Localization('1', 'Localização 1', '40.7128', '-74.0060', '#FF5733'),  // Exemplo de cor hexadecimal
-        new Localization('2', 'Localização 2', '34.0522', '-118.2437', '#3498db'),  // Azul
-        new Localization('3', 'Localização 3', '51.5074', '-0.1278', '#2ecc71'),   // Verde
-        new Localization('4', 'Localização 4', '48.8566', '2.3522', '#f1c40f'),    // Amarelo
-        new Localization('5', 'Localização 5', '35.6895', '139.6917', '#8e44ad')   // Roxo
-    ];
-
+  
     const { setLocalization } = useLocalization();
     const { setEditLocalization } = useEditLocalization();
+    const [locs, setLocs] = useState<Array<Localization>>([])
+
+    useEffect(() => {
+      getLocations()
+    },[locs])
+
+    const getLocations = async () => {
+      let locsList : Localization[] = []
+        const locsStorage = await AsyncStorage.getItem('markers');
+        if (locsStorage){
+            locsList = JSON.parse(locsStorage)
+        }
+        setLocs(locsList)
+    }
 
     const handleItemPress = (item : Localization) => {
       setLocalization(item);
@@ -39,7 +48,7 @@ export default function LocalizationList(){
     return(
         <Container>
             <FlatList
-                data={locList}
+                data={locs}
                 renderItem={({item}) => <ListItem item={item}/>}
                 keyExtractor={item => item.id}
             />
@@ -56,7 +65,7 @@ const styles = StyleSheet.create({
     borderBottomColor: '#ddd',  // Cor da linha separadora
   },
   icon: {
-    marginRight: 15,            // Espaço entre o ícone e as linhas de texto
+    marginRight: 15,            
   },
   textContainer: {
     flex: 1,                    // O conteúdo das linhas de texto ocupará o restante do espaço

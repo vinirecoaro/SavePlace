@@ -4,6 +4,8 @@ import {Text, TextInput, StyleSheet, Button, View} from 'react-native'
 import { useLocalization } from "@/contexts/localization";
 import { useEditLocalization } from "@/contexts/editLocalization";
 import { useNavigation } from "expo-router";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import Localization from "@/model/localization";
 
 
 export default function AddScreen(){
@@ -11,9 +13,28 @@ export default function AddScreen(){
     const [latitude, setLatitude] = useState('')
     const [longitude, setLongitude] = useState('')
     const [pinColor, setPinColor] = useState('')
+    const [locs, setLocs] = useState<Array<Localization>>([])
 
-    const handleAddLoc = () => {
-
+    const handleAddLoc = async () => {
+        let locsList : Localization[] = []
+        const locsStorage = await AsyncStorage.getItem('markers');
+        if (locsStorage){
+            locsList = JSON.parse(locsStorage)
+        }
+        const loc: Localization = new Localization(
+            name+latitude+longitude+pinColor, 
+            name,
+            latitude, 
+            longitude, 
+            pinColor
+        )
+        locsList.push(loc)
+        setLocs(locsList)
+        AsyncStorage.setItem('markers', JSON.stringify(locsList));
+        setName('')
+        setLatitude('')
+        setLongitude('')
+        setPinColor('')
     }
 
     const { localization } = useLocalization();
@@ -40,21 +61,25 @@ export default function AddScreen(){
                 style={styles.input}
                 value={name}
                 placeholder="Nome da Localização"
+                onChangeText={setName}
             />
             <TextInput
                 style={styles.input}
                 value={latitude}
                 placeholder="Latitude"
+                onChangeText={setLatitude}
             />
             <TextInput
                 style={styles.input}
                 value={longitude}
                 placeholder="Longitude"
+                onChangeText={setLongitude}
             />
             <TextInput
                 style={styles.input}
                 value={pinColor}
                 placeholder="Cor do Marcador"
+                onChangeText={setPinColor}
             />
             <View
             style={styles.button}
