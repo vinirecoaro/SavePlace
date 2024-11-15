@@ -47,7 +47,6 @@ export default function MapScreen(){
             let location = await Location.getCurrentPositionAsync();
             setLocation(location);
             if (mapRef.current) {
-              console.log('Map - Lat: ' + latitude + '  ||  ' + 'Long: ' + longitude)
               if(latitude != null && longitude != null){
                 const region: Region = {
                   latitude: parseFloat(latitude.toString()),
@@ -104,7 +103,7 @@ export default function MapScreen(){
         {locs.map( loc => (
           <Marker 
             coordinate={{ latitude: parseFloat(loc.latitude), longitude: parseFloat(loc.longitude)}}
-            pinColor='yellow'
+            pinColor={loc.pinColor}
             title={loc.name}
           />
         ))}

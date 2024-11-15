@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Container } from "./styles";
 import {Text, TextInput, StyleSheet, Button, View, Alert} from 'react-native'
 import { useLocalization } from "@/contexts/localization";
@@ -8,6 +8,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Localization from "@/model/localization";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { router } from "expo-router";
+import { Box, Center, CheckIcon, NativeBaseProvider, Select } from "native-base";
 
 
 export default function AddEditScreen(){
@@ -140,12 +141,27 @@ export default function AddEditScreen(){
                 placeholder="Longitude"
                 onChangeText={setLongitude}
             />
-            <TextInput
-                style={styles.input}
-                value={pinColor}
-                placeholder="Cor do Marcador"
-                onChangeText={setPinColor}
-            />
+            <NativeBaseProvider>
+                
+                <Select 
+                style={styles.input} 
+                selectedValue={pinColor} 
+                accessibilityLabel="Cor do Marcador" 
+                placeholder="Cor do Marcador" 
+                _selectedItem={{
+                    bg: "teal.600",
+                    endIcon: <CheckIcon size="5" />
+                }} 
+                mt={1} onValueChange={itemValue => setPinColor(itemValue)}>
+                <Select.Item label="Blue" value="blue" />
+                <Select.Item label="Red" value="red" />
+                <Select.Item label="Green" value="green" />
+                <Select.Item label="Yellow" value="yellow" />
+                <Select.Item label="Backend Development" value="backend" />
+                </Select>
+                    
+            </NativeBaseProvider>
+            
             <View
             style={styles.button}
             >
@@ -176,6 +192,7 @@ const styles = StyleSheet.create({
     button: {
         marginTop : 30,
         width: '100%',
-        alignItems: 'center'
+        alignItems: 'center',
+        paddingBottom: 30
     }
 })

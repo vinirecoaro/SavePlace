@@ -35,8 +35,7 @@ export default function LocalizationList(){
     };
 
     const handleMapOption = (item : Localization) => {
-      console.log('List - Lat: ' + item.latitude + '  ||  ' + 'Long: ' + item.longitude)
-      router.push({
+      router.replace({
         pathname: '/',
         params: {
           latitude: item.latitude,
