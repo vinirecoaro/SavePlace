@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Container } from "./styles";
-import {Text, TextInput, StyleSheet, Button, View, Alert} from 'react-native'
+import { TextInput, StyleSheet, Button, View, Alert } from 'react-native'
 import { useLocalization } from "@/contexts/localization";
 import { useEditLocalization } from "@/contexts/editLocalization";
 import { useNavigation } from "expo-router";
@@ -8,7 +8,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Localization from "@/model/localization";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { router } from "expo-router";
-import { Box, Center, CheckIcon, NativeBaseProvider, Select } from "native-base";
+import { CheckIcon, NativeBaseProvider, Select } from "native-base";
+import * as Location from 'expo-location';
 
 
 export default function AddEditScreen(){
@@ -17,6 +18,9 @@ export default function AddEditScreen(){
     const [longitude, setLongitude] = useState('')
     const [pinColor, setPinColor] = useState('')
     const [locs, setLocs] = useState<Array<Localization>>([])
+    const { localization } = useLocalization();
+    const { editLocalization } = useEditLocalization();
+    const navigation = useNavigation();
 
     const handleAddLoc = async () => {
         let locsList : Localization[] = []
@@ -91,9 +95,18 @@ export default function AddEditScreen(){
         );
     };
 
-    const { localization } = useLocalization();
-    const { editLocalization } = useEditLocalization();
-    const navigation = useNavigation();
+    const getCurrentLocation = async() => {
+        let locationPermission = await Location.requestForegroundPermissionsAsync();
+        let { status } = locationPermission;
+        // let status = locationPermission.status;
+        if (status !== 'granted') {
+            console.log('A permissão foi negada!');
+        } else {
+            let location = await Location.getCurrentPositionAsync();
+            setLatitude((location?.coords.latitude).toString() ?? '0')
+            setLongitude((location?.coords.longitude).toString() ?? '0')
+        }
+    }
 
     useEffect(() => {
         if (editLocalization) {
@@ -117,7 +130,17 @@ export default function AddEditScreen(){
                 })
             }
         }else{
-            navigation.setOptions({title:'Adicionar Tarefa'})
+            navigation.setOptions({
+                title:'Adicionar Tarefa',
+                headerRight: () => (
+                    <Icon
+                        name="map-marker"
+                        size={24}
+                        color="white"
+                        onPress={getCurrentLocation} // Botão de deletar
+                    />
+                )
+            })
         }
       }, []);
 
@@ -148,6 +171,7 @@ export default function AddEditScreen(){
                 selectedValue={pinColor} 
                 accessibilityLabel="Cor do Marcador" 
                 placeholder="Cor do Marcador" 
+                placeholderTextColor='#808080'
                 _selectedItem={{
                     bg: "teal.600",
                     endIcon: <CheckIcon size="5" />
@@ -157,7 +181,7 @@ export default function AddEditScreen(){
                 <Select.Item label="Red" value="red" />
                 <Select.Item label="Green" value="green" />
                 <Select.Item label="Yellow" value="yellow" />
-                <Select.Item label="Backend Development" value="backend" />
+                <Select.Item label="Purple" value="purple" />
                 </Select>
                     
             </NativeBaseProvider>
@@ -187,7 +211,9 @@ const styles = StyleSheet.create({
         height: 40,
         margin: 12,
         borderWidth: 1,
-        padding:10
+        padding:10,
+        fontSize: 18,
+        color:'black'
     },
     button: {
         marginTop : 30,
