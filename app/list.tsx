@@ -1,4 +1,4 @@
-import { FlatList, StyleSheet, TouchableOpacity, View, Text } from "react-native";
+import { FlatList, StyleSheet, TouchableOpacity, View, Text, Alert } from "react-native";
 import { Container } from "./styles";
 import Icon from "react-native-vector-icons/FontAwesome";
 import Localization from "@/model/localization";
@@ -10,14 +10,14 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function LocalizationList(){
   
-    const { setLocalization } = useLocalization();
+    const { localization, setLocalization } = useLocalization();
     const { setEditLocalization } = useEditLocalization();
     const [locs, setLocs] = useState<Array<Localization>>([])
 
-    useFocusEffect(
-      useCallback(() => {
-          getLocations();
-      }, []) // Dependências vazias para garantir que só roda ao focar na tela
+  useFocusEffect(
+    useCallback(() => {
+        getLocations();
+    }, []) // Dependências vazias para garantir que só roda ao focar na tela
   );
 
     const getLocations = async () => {
@@ -29,15 +29,52 @@ export default function LocalizationList(){
         setLocs(locsList)
     }
 
-    const handleItemPress = (item : Localization) => {
-      setLocalization(item);
+    const handleEditOption = () => {
       setEditLocalization(true)
       router.push('/addEdit');
     };
 
+    const handleMapOption = (item : Localization) => {
+      console.log('List - Lat: ' + item.latitude + '  ||  ' + 'Long: ' + item.longitude)
+      router.push({
+        pathname: '/',
+        params: {
+          latitude: item.latitude,
+          longitude: item.longitude,
+        }
+      })
+    }
+
+    const showActionDialog = (item : Localization) => {
+      Alert.alert(
+        "Ação", // Título
+        "Selecione a ação que deseja tomar", // Mensagem
+        [
+          {
+            text: "Ver no Mapa", // Botão de cancelar
+            onPress: () => {
+              handleMapOption(item)
+            },
+            style: "cancel"
+          },
+          {
+            text: "Editar", // Botão de ação
+            onPress: () => handleEditOption()
+          }
+        ],
+        { cancelable: true } // Se o diálogo pode ser fechado ao clicar fora dele
+      );
+  };
+
     const ListItem = ( { item }: { item: Localization }) => {
       return (
-        <TouchableOpacity style={styles.container} onPress={() => handleItemPress(item)}>
+        <TouchableOpacity 
+        style={styles.container} 
+        onPress={() => {
+            setLocalization(item);
+            showActionDialog(item)
+          }
+        }>
           <Icon name="map-marker" size={40} color={item.pinColor} style={styles.icon} />
           <View style={styles.textContainer}>
             <Text style={styles.primaryText}>{item.name}</Text>
