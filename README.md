@@ -1,50 +1,30 @@
-# Welcome to your Expo app 👋
+# Save Place App
+Aplicativo para salvar as suas localizações preferidas.
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+## Resumo
 
-## Get started
+Através desse aplicativo é possível salvar pontos de localização e vizualiza-los no mapa.
 
-1. Install dependencies
+## Sobre o projeto
 
-   ```bash
-   npm install
-   ```
+Desenvolvido no VS Code utilizando o framework expo react-native.
 
-2. Start the app
+## Bibliotecas utilizadas
 
-   ```bash
-    npx expo start
-   ```
+"@react-native-async-storage/async-storage": "1.23.1",
+"react-native-floating-action": "^1.22.0",
+"react-native-maps": "^1.20.0",
+"styled-components": "^6.1.13"
 
-In the output, you'll find options to open the app in a
+## Tela home
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+<img src="https://github.com/user-attachments/assets/42ecce50-ad86-40fe-8315-d5c6922e3a5e" alt="Descrição da Imagem" width="200">
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+## Tela dos Voos
 
-## Get a fresh project
+<img src="https://github.com/user-attachments/assets/f23f026f-e5c8-49d3-8211-b150ce9e15a4" alt="Descrição da Imagem" width="200">
+<img src="https://github.com/user-attachments/assets/1d2779dd-23c9-4470-9640-0da47fc4c244" alt="Descrição da Imagem" width="200">
 
-When you're ready, run:
+## Tela para adicionar novo voo
 
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+<img src="https://github.com/user-attachments/assets/a6cc5ad5-deb6-46e2-9878-12c7c4b8b33d" alt="Descrição da Imagem" width="200">
