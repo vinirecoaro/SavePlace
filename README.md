@@ -11,20 +11,23 @@ Desenvolvido no VS Code utilizando o framework expo react-native.
 
 ## Bibliotecas utilizadas
 
+```
 "@react-native-async-storage/async-storage": "1.23.1",
 "react-native-floating-action": "^1.22.0",
 "react-native-maps": "^1.20.0",
 "styled-components": "^6.1.13"
+```
 
 ## Tela home
 
-<img src="https://github.com/user-attachments/assets/42ecce50-ad86-40fe-8315-d5c6922e3a5e" alt="Descrição da Imagem" width="200">
+Mapa que inicia na sua localização atual. Ao clicar em um item da lista o usuário é redirecionado a localização selecionada.
 
-## Tela dos Voos
+<img src="https://github.com/user-attachments/assets/bf1511a8-75b2-4128-8036-9eb2f1504d84" alt="Descrição da Imagem" width="200">
 
-<img src="https://github.com/user-attachments/assets/f23f026f-e5c8-49d3-8211-b150ce9e15a4" alt="Descrição da Imagem" width="200">
-<img src="https://github.com/user-attachments/assets/1d2779dd-23c9-4470-9640-0da47fc4c244" alt="Descrição da Imagem" width="200">
+## Tela para adicionar localização
 
-## Tela para adicionar novo voo
+<img src="https://github.com/user-attachments/assets/51a1d698-9bc0-4eaf-bb75-ee9e9ee04cde" alt="Descrição da Imagem" width="300">
 
-<img src="https://github.com/user-attachments/assets/a6cc5ad5-deb6-46e2-9878-12c7c4b8b33d" alt="Descrição da Imagem" width="200">
+## Tela da lista de localizações
+
+<img src="https://github.com/user-attachments/assets/dd1e28e8-75e0-456c-8765-f713d824cab8" alt="Descrição da Imagem" width="200">
