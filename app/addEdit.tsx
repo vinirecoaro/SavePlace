@@ -111,7 +111,7 @@ export default function AddEditScreen(){
     useEffect(() => {
         if (editLocalization) {
             navigation.setOptions({
-                title:'Editar Tarefa',
+                title:'Editar Localização',
             })
             if(localization != null){
                 setName(localization.name);
@@ -131,7 +131,7 @@ export default function AddEditScreen(){
             }
         }else{
             navigation.setOptions({
-                title:'Adicionar Tarefa',
+                title:'Adicionar Localização',
                 headerRight: () => (
                     <Icon
                         name="map-marker"
