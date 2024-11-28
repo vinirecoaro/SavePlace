@@ -2,7 +2,7 @@ import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import TextField from '@/components/TextField';
 import { useState } from 'react';
 import { router } from 'expo-router';
-import { ButtonConstants, ScreenConstants, FontConstants } from '@/styles/Global.style';
+import { ButtonConstants, ScreenConstants, FontConstants, IconConstants } from '@/styles/Global.style';
 
 export default function LoginScreen() {
 
@@ -24,7 +24,7 @@ export default function LoginScreen() {
 
     return (
         <View style={styles.loginContainer}>
-            <Image style={styles.loginImageIcon} resizeMode='contain' source={require('@/assets/images/appIcon.png')} />
+    <Image style={styles.loginImageIcon} resizeMode='contain' source={IconConstants.appIcon} />
             <Text style={styles.loginHeader}>Acesso</Text>
             <View style={styles.textField}>
                 <TextField

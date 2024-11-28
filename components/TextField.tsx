@@ -1,4 +1,4 @@
-import { InputConstants } from '@/styles/Global.style';
+import { FontConstants, InputConstants } from '@/styles/Global.style';
 import { StyleSheet, TextInput, View, Text } from 'react-native';
 
 interface TextFieldProps {
@@ -20,6 +20,7 @@ export default function TextField({
         <View style={styles.textFieldContainer}>
             <TextInput style={styles.textFieldInput}
                 placeholder={placeholder}
+                placeholderTextColor={FontConstants.placeHolderTextColor}
                 value={value}
                 onChangeText={onChangeText}
                 secureTextEntry={isPassword}
@@ -43,12 +44,13 @@ const styles = StyleSheet.create({
         borderBottomWidth: 3,
         borderRadius: 5,
         width: '90%',
+        color: FontConstants.color
     },
     textFieldFeedback: {
         paddingRight: 30,
         alignSelf: 'stretch',
         textAlign: 'right',
         fontSize: 18,
-        color: "#ca6702",
+        color: FontConstants.color,
     }
 });
