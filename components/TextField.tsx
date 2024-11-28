@@ -1,3 +1,4 @@
+import { InputConstants } from '@/styles/Global.style';
 import { StyleSheet, TextInput, View, Text } from 'react-native';
 
 interface TextFieldProps {
@@ -37,8 +38,8 @@ const styles = StyleSheet.create({
         fontSize: 24,
         marginVertical: 10,
         padding: 10,
-        backgroundColor: '#dde7c7',
-        borderBottomColor: '#001219',
+        backgroundColor: InputConstants.backgroundColor,
+        borderBottomColor: InputConstants.borderBottomColor,
         borderBottomWidth: 3,
         borderRadius: 5,
         width: '90%',

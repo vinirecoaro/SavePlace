@@ -2,7 +2,7 @@ import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import TextField from '@/components/TextField';
 import { useState } from 'react';
 import { router } from 'expo-router';
-import { ColorConstants, FontConstants } from '@/styles/Global.style';
+import { ButtonConstants, ScreenConstants, FontConstants } from '@/styles/Global.style';
 
 export default function LoginScreen() {
 
@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         paddingTop: 70,
         alignItems: 'center',
-        backgroundColor: ColorConstants.backgroundColor
+        backgroundColor: ScreenConstants.backgroundColor
     },
     loginImageIcon: {
         height: 200,
@@ -73,8 +73,8 @@ const styles = StyleSheet.create({
     },
     loginBtnSubmit: {
         padding: 10,
-        marginVertical: 30,
-        backgroundColor: "#aaf683",
+        marginVertical: 50,
+        backgroundColor: ButtonConstants.backgroundColor,
         width: "50%",
         borderRadius: 10,
         shadowColor: "#343a40",
@@ -89,5 +89,6 @@ const styles = StyleSheet.create({
     loginBtnSubmitLabel: {
         fontSize: 20,
         textAlign: 'center',
+        color: ButtonConstants.textColor,
     }
 })
