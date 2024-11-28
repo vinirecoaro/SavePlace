@@ -36,7 +36,7 @@ export default function LocalizationList(){
 
     const handleMapOption = (item : Localization) => {
       router.replace({
-        pathname: '/',
+        pathname: '/map',
         params: {
           latitude: item.latitude,
           longitude: item.longitude,
