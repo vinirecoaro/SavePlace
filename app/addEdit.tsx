@@ -10,6 +10,7 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import { router } from "expo-router";
 import { CheckIcon, NativeBaseProvider, Select } from "native-base";
 import * as Location from 'expo-location';
+import { FontConstants, InputConstants } from "@/styles/Global.style";
 
 
 export default function AddEditScreen(){
@@ -150,18 +151,21 @@ export default function AddEditScreen(){
                 style={styles.input}
                 value={name}
                 placeholder="Nome da Localização"
+                placeholderTextColor={FontConstants.placeHolderTextColor}
                 onChangeText={setName}
             />
             <TextInput
                 style={styles.input}
                 value={latitude}
                 placeholder="Latitude"
+                placeholderTextColor={FontConstants.placeHolderTextColor}
                 onChangeText={setLatitude}
             />
             <TextInput
                 style={styles.input}
                 value={longitude}
                 placeholder="Longitude"
+                placeholderTextColor={FontConstants.placeHolderTextColor}
                 onChangeText={setLongitude}
             />
             <NativeBaseProvider>
@@ -170,8 +174,9 @@ export default function AddEditScreen(){
                 style={styles.input} 
                 selectedValue={pinColor} 
                 accessibilityLabel="Cor do Marcador" 
-                placeholder="Cor do Marcador" 
-                placeholderTextColor='#808080'
+                placeholder="Cor do Marcador"
+                variant="unstyled"
+                placeholderTextColor={FontConstants.placeHolderTextColor}
                 _selectedItem={{
                     bg: "teal.600",
                     endIcon: <CheckIcon size="5" />
@@ -211,9 +216,10 @@ const styles = StyleSheet.create({
         height: 40,
         margin: 12,
         borderWidth: 1,
+        borderColor: InputConstants.borderBottomColor,
         padding:10,
         fontSize: 18,
-        color:'black'
+        color: FontConstants.color
     },
     button: {
         marginTop : 30,

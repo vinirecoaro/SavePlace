@@ -1,21 +1,37 @@
-import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Alert, Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import TextField from '@/components/TextField';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { router } from 'expo-router';
 import { ButtonConstants, ScreenConstants, FontConstants, IconConstants } from '@/styles/Global.style';
+import { UserActionType, UserContext, UserDispatchContext } from '@/store/UserStore';
 
 export default function LoginScreen() {
 
-    const [inputUser, setInputUser] = useState<string>("");
-    const [inputPassword, setInputPassword] = useState<string>("");
+    const userAuth = useContext(UserContext)
+    const userAuthDispatch = useContext(UserDispatchContext)
+
+    const [inputUser, setInputUser] = useState<string>( userAuth?.email ?? "");
+    const [inputPassword, setInputPassword] = useState<string>(userAuth?.password ??"");
     const [inputUserFeedback, setInputUserFeedback] = useState<string>("");
     const [inputPasswordFeedback, setInputPasswordFeedback] = useState<string>("");
+
 
     const loginSubmit = () => {
         setInputUserFeedback("");
         setInputPasswordFeedback("");
         if (inputUser && inputPassword) {
-            router.replace('/map');
+            
+            if(true){
+                userAuthDispatch({
+                    type: UserActionType.LOGAR,
+                    user: {email: inputUser, password: inputPassword, token: 'fsdfsds'
+                    }
+                })
+                router.replace('/map');
+            }else{
+                Alert.alert('Credenciais inválidas')
+            }
+            
         } else {
             if (!inputUser) setInputUserFeedback("Preencha este campo.");
             if (!inputPassword) setInputPasswordFeedback("Preencha este campo.");
@@ -24,7 +40,7 @@ export default function LoginScreen() {
 
     return (
         <View style={styles.loginContainer}>
-    <Image style={styles.loginImageIcon} resizeMode='contain' source={IconConstants.appIcon} />
+            <Image style={styles.loginImageIcon} resizeMode='contain' source={IconConstants.appIcon} />
             <Text style={styles.loginHeader}>Acesso</Text>
             <View style={styles.textField}>
                 <TextField

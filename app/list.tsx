@@ -7,6 +7,7 @@ import { useLocalization } from "@/contexts/localization";
 import { useEditLocalization } from "@/contexts/editLocalization";
 import { useCallback, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { FontConstants } from "@/styles/Global.style";
 
 export default function LocalizationList(){
   
@@ -110,11 +111,12 @@ const styles = StyleSheet.create({
   },
   primaryText: {
     fontSize: 16,               // Tamanho da fonte para a primeira linha de texto
-    fontWeight: 'bold',         // Deixar a primeira linha em negrito (opcional)
+    fontWeight: 'bold',
+    color: FontConstants.color       // Deixar a primeira linha em negrito (opcional)
   },
   secondaryText: {
     fontSize: 14,               // Tamanho da fonte para a segunda linha de texto
-    color: '#888',              // Cor da segunda linha (opcional)
+    color: FontConstants.placeHolderTextColor,              // Cor da segunda linha (opcional)
   },
 });
   
