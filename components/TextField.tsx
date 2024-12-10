@@ -7,6 +7,7 @@ interface TextFieldProps {
     onChangeText: (value: string) => void,
     feedback: string,
     isPassword?: boolean,
+    editable: boolean
 };
 
 export default function TextField({
@@ -15,6 +16,7 @@ export default function TextField({
     onChangeText,
     feedback,
     isPassword = false,
+    editable = true
 }: TextFieldProps) {
     return (
         <View style={styles.textFieldContainer}>
@@ -24,6 +26,7 @@ export default function TextField({
                 value={value}
                 onChangeText={onChangeText}
                 secureTextEntry={isPassword}
+                editable={editable}
             />
             {feedback && <Text style={styles.textFieldFeedback}>{feedback}</Text>}
         </View>

@@ -1,40 +1,71 @@
-import { Alert, Image, Pressable, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, Alert, Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import TextField from '@/components/TextField';
 import { useContext, useState } from 'react';
 import { router } from 'expo-router';
 import { ButtonConstants, ScreenConstants, FontConstants, IconConstants } from '@/styles/Global.style';
 import { UserActionType, UserContext, UserDispatchContext } from '@/store/UserStore';
+import env from '@/constants/env';
 
 export default function LoginScreen() {
 
     const userAuth = useContext(UserContext)
     const userAuthDispatch = useContext(UserDispatchContext)
 
+    const [isLoading, setLoading] = useState(false);
     const [inputUser, setInputUser] = useState<string>( userAuth?.email ?? "");
     const [inputPassword, setInputPassword] = useState<string>(userAuth?.password ??"");
     const [inputUserFeedback, setInputUserFeedback] = useState<string>("");
     const [inputPasswordFeedback, setInputPasswordFeedback] = useState<string>("");
 
 
-    const loginSubmit = () => {
-        setInputUserFeedback("");
-        setInputPasswordFeedback("");
-        if (inputUser && inputPassword) {
-            
-            if(true){
-                userAuthDispatch({
-                    type: UserActionType.LOGAR,
-                    user: {email: inputUser, password: inputPassword, token: 'fsdfsds'
+    const loginSubmit = async () => {
+        setLoading(true);
+        try {
+            setInputUserFeedback("");
+            setInputPasswordFeedback("");
+            if (inputUser && inputPassword) {
+                const apiKey = env.API_KEY;
+                const apiUrl = env.API_URL;
+                const response = await fetch(`${apiUrl}/v1/accounts:signInWithPassword?key=${apiKey}`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        email: inputUser,
+                        password: inputPassword,
+                        returnSecureToken: true,
+                    })
+                });
+                const { status } = response;
+                if (status == 200) {
+                    const body = await response.json();
+                    // Alert.alert(`Usuário ${body.email}`);
+                    if (!userAuthDispatch) {
+                        throw new Error("UserDispatchContext is not provided");
                     }
-                })
-                router.replace('/map');
-            }else{
-                Alert.alert('Credenciais inválidas')
+                    userAuthDispatch({
+                        type: UserActionType.LOGAR,
+                        user: {
+                            email: body.email,
+                            password: inputPassword,
+                            token: body.idToken,
+                        }
+                    });
+                    router.push('/map');
+                } else if (status == 400) {
+                    const body = await response.json();
+                    Alert.alert(`${body.error.message}`);
+                } else {
+                    Alert.alert(`Status ${status}`);
+                }
+            } else {
+                if (!inputUser) setInputUserFeedback("Preencha este campo.");
+                if (!inputPassword) setInputPasswordFeedback("Preencha este campo.");
             }
-            
-        } else {
-            if (!inputUser) setInputUserFeedback("Preencha este campo.");
-            if (!inputPassword) setInputPasswordFeedback("Preencha este campo.");
+        } catch (error) {
+            const err = error as { message: string };
+            Alert.alert(err.message);
+        } finally {
+            setLoading(false);
         }
     }
 
@@ -48,6 +79,7 @@ export default function LoginScreen() {
                     value={inputUser}
                     onChangeText={setInputUser}
                     feedback={inputUserFeedback}
+                    editable={!isLoading}
                 />
             </View>
             <TextField
@@ -56,10 +88,12 @@ export default function LoginScreen() {
                 onChangeText={setInputPassword}
                 feedback={inputPasswordFeedback}
                 isPassword
+                editable={!isLoading}
             />
-            <Pressable style={styles.loginBtnSubmit} onPress={loginSubmit}>
+            {!isLoading && <Pressable style={styles.loginBtnSubmit} onPress={loginSubmit}>
                 <Text style={styles.loginBtnSubmitLabel}>Acessar</Text>
-            </Pressable>
+            </Pressable>}
+            {isLoading && <ActivityIndicator size='large'/>}
         </View>
     );
 }
