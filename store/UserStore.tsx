@@ -3,6 +3,7 @@ import React, { createContext, ReactElement, useReducer } from "react";
 export enum UserActionType {
     LOGAR,
     DESLOGAR,
+    REGISTRAR
 }
 
 interface User {
@@ -55,7 +56,18 @@ function UserReducer(state: User, action: UserReducerAction): User {
                 ...state,
                 ...userAuth,
                 status: true,
-                message: "Autenticado com sucesso",
+                message: "Usuario autenticado com sucesso",
+            };
+        }
+        case UserActionType.REGISTRAR: {
+            if (!userAuth) {
+                throw new Error("Missing user data for REGISTRAR action");
+            }
+            return {
+                ...state,
+                ...userAuth,
+                status: true,
+                message: "Usuario criado com sucesso",
             };
         }
         case UserActionType.DESLOGAR: {

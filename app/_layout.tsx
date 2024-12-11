@@ -48,6 +48,7 @@ export default function Layout() {
               />
               <Stack.Screen name='addEdit'/>
               <Stack.Screen name='list' options={{title : 'Lista de Localizações'}}/>
+              <Stack.Screen name='register' options={{headerShown:false}}/>
             </Stack>
           </UserProvider>
         </LocalizationProvider>

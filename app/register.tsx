@@ -1,24 +1,23 @@
-import { ActivityIndicator, Alert, Image, Pressable, StyleSheet, Text, View } from 'react-native';
-import TextField from '@/components/TextField';
-import { useContext, useState } from 'react';
-import { router } from 'expo-router';
-import { ButtonConstants, ScreenConstants, FontConstants, IconConstants } from '@/styles/Global.style';
-import { UserActionType, UserContext, UserDispatchContext } from '@/store/UserStore';
-import env from '@/constants/env';
+import TextField from "@/components/TextField";
+import env from "@/constants/env";
+import { UserActionType, UserContext, UserDispatchContext } from "@/store/UserStore";
+import { ButtonConstants, FontConstants, ScreenConstants } from "@/styles/Global.style";
+import { router } from "expo-router";
+import { useContext, useState } from "react";
+import { ActivityIndicator, Pressable, Text, View, StyleSheet, Alert } from "react-native";
 
-export default function LoginScreen() {
+export default function RegisterScreen(){
 
     const userAuth = useContext(UserContext)
     const userAuthDispatch = useContext(UserDispatchContext)
 
     const [isLoading, setLoading] = useState(false);
-    const [inputUser, setInputUser] = useState<string>( userAuth?.email ?? "");
-    const [inputPassword, setInputPassword] = useState<string>(userAuth?.password ??"");
+    const [inputUser, setInputUser] = useState<string>("");
+    const [inputPassword, setInputPassword] = useState<string>("");
     const [inputUserFeedback, setInputUserFeedback] = useState<string>("");
     const [inputPasswordFeedback, setInputPasswordFeedback] = useState<string>("");
 
-
-    const loginSubmit = async () => {
+    const registerSubmit = async () => {
         setLoading(true);
         try {
             setInputUserFeedback("");
@@ -26,7 +25,7 @@ export default function LoginScreen() {
             if (inputUser && inputPassword) {
                 const apiKey = env.API_KEY;
                 const apiUrl = env.API_URL;
-                const response = await fetch(`${apiUrl}/v1/accounts:signInWithPassword?key=${apiKey}`, {
+                const response = await fetch(`${apiUrl}/v1/accounts:signUp?key=${apiKey}`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
@@ -43,7 +42,7 @@ export default function LoginScreen() {
                         throw new Error("UserDispatchContext is not provided");
                     }
                     userAuthDispatch({
-                        type: UserActionType.LOGAR,
+                        type: UserActionType.REGISTRAR,
                         user: {
                             email: body.email,
                             password: inputPassword,
@@ -69,14 +68,9 @@ export default function LoginScreen() {
         }
     }
 
-    const goToRegister = ()=>{
-        router.push("/register")
-    }
-
-    return (
+    return(
         <View style={styles.loginContainer}>
-            <Image style={styles.loginImageIcon} resizeMode='contain' source={IconConstants.appIcon} />
-            <Text style={styles.loginHeader}>Acesso</Text>
+            <Text style={styles.loginHeader}>Cadastro</Text>
             <View style={styles.textField}>
                 <TextField
                     placeholder='Usuário'
@@ -94,13 +88,13 @@ export default function LoginScreen() {
                 isPassword
                 editable={!isLoading}
             />
-            {!isLoading && <Pressable style={styles.loginBtnSubmit} onPress={loginSubmit}>
-                <Text style={styles.loginBtnSubmitLabel}>Acessar</Text>
+            {!isLoading && <Pressable style={styles.loginBtnSubmit} onPress={registerSubmit}>
+                <Text style={styles.loginBtnSubmitLabel}>Cadastrar</Text>
             </Pressable>}
             {isLoading && <ActivityIndicator size='large'/>}
-            <Text onPress={goToRegister}>Não tem conta? Cadastre-se</Text>
         </View>
-    );
+    )
+
 }
 
 const styles = StyleSheet.create({
