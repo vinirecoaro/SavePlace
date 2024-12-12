@@ -79,6 +79,7 @@ export default function LoginScreen() {
             <Text style={styles.loginHeader}>Acesso</Text>
             <View style={styles.textField}>
                 <TextField
+                    testID='login-input-username'
                     placeholder='Usuário'
                     value={inputUser}
                     onChangeText={setInputUser}
@@ -87,6 +88,7 @@ export default function LoginScreen() {
                 />
             </View>
             <TextField
+                testID='login-input-password'
                 placeholder='Senha'
                 value={inputPassword}
                 onChangeText={setInputPassword}

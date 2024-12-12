@@ -7,7 +7,8 @@ interface TextFieldProps {
     onChangeText: (value: string) => void,
     feedback: string,
     isPassword?: boolean,
-    editable: boolean
+    editable: boolean,
+    testID:string
 };
 
 export default function TextField({
@@ -16,10 +17,11 @@ export default function TextField({
     onChangeText,
     feedback,
     isPassword = false,
-    editable = true
+    editable = true,
+    testID
 }: TextFieldProps) {
     return (
-        <View style={styles.textFieldContainer}>
+        <View testID={testID} style={styles.textFieldContainer}>
             <TextInput style={styles.textFieldInput}
                 placeholder={placeholder}
                 placeholderTextColor={FontConstants.placeHolderTextColor}
