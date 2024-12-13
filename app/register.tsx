@@ -73,6 +73,7 @@ export default function RegisterScreen(){
             <Text style={styles.loginHeader}>Cadastro</Text>
             <View style={styles.textField}>
                 <TextField
+                    testID='register-input-username'
                     placeholder='Usuário'
                     value={inputUser}
                     onChangeText={setInputUser}
@@ -81,6 +82,7 @@ export default function RegisterScreen(){
                 />
             </View>
             <TextField
+                testID='register-input-password'
                 placeholder='Senha'
                 value={inputPassword}
                 onChangeText={setInputPassword}
