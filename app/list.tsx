@@ -8,6 +8,7 @@ import { useEditLocalization } from "@/contexts/editLocalization";
 import { useCallback, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { FontConstants } from "@/styles/Global.style";
+import env from '@/constants/env';
 
 export default function LocalizationList(){
   
@@ -17,7 +18,8 @@ export default function LocalizationList(){
 
   useFocusEffect(
     useCallback(() => {
-        getLocations();
+        getLocations()
+        getLocationsWithGraphQL()
     }, []) // Dependências vazias para garantir que só roda ao focar na tela
   );
 
@@ -28,6 +30,32 @@ export default function LocalizationList(){
             locsList = JSON.parse(locsStorage)
         }
         setLocs(locsList)
+    }
+
+    const getLocationsWithGraphQL = async () => {
+      let locsList : Localization[] = []
+      try {
+        const apiGqlUrl = env.API_GRAPH_QL;
+        const response = await fetch(apiGqlUrl, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                query: `query {
+                    localizations {
+                      id,name,latitude,longitude,pinColor
+                    }
+                  }`,
+            })
+        }); // POST
+        const { data } = await response.json()
+        locsList = data.localizations
+        setLocs(locsList)
+        //setLocs(data.localizations);
+    } catch (error) {
+        console.log("Falha na requisição")
+    } 
     }
 
     const handleEditOption = () => {

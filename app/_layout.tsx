@@ -4,7 +4,6 @@ import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native
 import { router, Stack } from 'expo-router';
 import { TouchableOpacity, useColorScheme, View } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import LoginScreen from '.';
 import UserProvider from '@/store/UserStore';
 
 export default function Layout() {
@@ -38,7 +37,7 @@ export default function Layout() {
                 { title : 'Mapa',
                   headerRight:() => (
                     <View>
-                      <TouchableOpacity onPress={() => router.push('/list')}>
+                      <TouchableOpacity onPress={() => router.push('/list')} testID="header-list-button">
                           <Icon name="list" size={20} color="#FFF" style={{ marginRight: 10 }} />
                         </TouchableOpacity>
                     </View>

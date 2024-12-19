@@ -99,7 +99,6 @@ export default function MapScreen(){
       }}
       showsUserLocation
       >
-
         {locs.map( loc => (
           <Marker 
             coordinate={{ latitude: parseFloat(loc.latitude), longitude: parseFloat(loc.longitude)}}

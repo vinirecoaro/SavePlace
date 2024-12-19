@@ -19,7 +19,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/appIcon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.vinirec.SavePlace"
     },
     "web": {
       "bundler": "metro",
@@ -31,6 +32,14 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "30adf5d8-2f8d-4aca-ab4b-deec79fdef52"
+      }
     }
   }
 }
