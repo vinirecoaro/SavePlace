@@ -8,7 +8,7 @@ import MapView, { Marker, MapPressEvent, LatLng, Region } from 'react-native-map
 import { useCallback, useEffect, useRef, useState } from 'react';
 import * as Location from 'expo-location';
 import Localization from '@/model/localization';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useLocalizationsList } from '@/contexts/localizationsListContext';
 
 export default function MapScreen(){
 
@@ -16,6 +16,7 @@ export default function MapScreen(){
   const [location, setLocation] = useState<Location.LocationObject | null>(null);
   const mapRef = useRef<MapView>(null);
   const {latitude, longitude} = useLocalSearchParams()
+  const {localizations, loadLocalizations} = useLocalizationsList()
   const [locs, setLocs] = useState<Array<Localization>>([])
 
   const actions = [
@@ -76,14 +77,16 @@ export default function MapScreen(){
     }, []) // Dependências vazias para garantir que só roda ao focar na tela
   );
 
+  useEffect(() => {
+    getLocations()
+  },[loadLocalizations])
+
     const getLocations = async () => {
-      let locsList : Localization[] = []
-        const locsStorage = await AsyncStorage.getItem('markers');
-        if (locsStorage){
-            locsList = JSON.parse(locsStorage)
-        }
+        let locsList : Localization[] = []
+        await loadLocalizations()
+        locsList = localizations
         setLocs(locsList)
-    }
+      }
 
   return (
     

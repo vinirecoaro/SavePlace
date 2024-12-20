@@ -3,10 +3,9 @@ import Localization from "@/model/localization";
 
 const apiGqlUrl = env.API_GRAPH_QL;
 
-export async function fetchItems() {
+export async function fetchLocalizations() {
  let locsList : Localization[] = []
        try {
-         
          const response = await fetch(apiGqlUrl, {
              method: "POST",
              headers: {

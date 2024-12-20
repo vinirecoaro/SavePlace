@@ -5,122 +5,91 @@ import Localization from "@/model/localization";
 import { router, useFocusEffect } from "expo-router";
 import { useLocalization } from "@/contexts/localization";
 import { useEditLocalization } from "@/contexts/editLocalization";
-import { useCallback, useState } from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useCallback, useEffect, useState } from "react";
 import { FontConstants } from "@/styles/Global.style";
-import env from '@/constants/env';
+import { useLocalizationsList } from "@/contexts/localizationsListContext";
 
 export default function LocalizationList(){
   
-    const { localization, setLocalization } = useLocalization();
-    const { setEditLocalization } = useEditLocalization();
-    const [locs, setLocs] = useState<Array<Localization>>([])
+  const { setLocalization } = useLocalization();
+  const { setEditLocalization } = useEditLocalization();
+  const [locs, setLocs] = useState<Array<Localization>>([])
+  const {localizations, loadLocalizations} = useLocalizationsList()
 
-  useFocusEffect(
-    useCallback(() => {
-        getLocations()
-        getLocationsWithGraphQL()
-    }, []) // Dependências vazias para garantir que só roda ao focar na tela
-  );
+  useEffect(() => {
+    getLocations()
+  },[loadLocalizations])
 
-    const getLocations = async () => {
-      let locsList : Localization[] = []
-        const locsStorage = await AsyncStorage.getItem('markers');
-        if (locsStorage){
-            locsList = JSON.parse(locsStorage)
-        }
-        setLocs(locsList)
-    }
+  const getLocations = async () => {
+    let locsList : Localization[] = []
+    await loadLocalizations()
+    locsList = localizations
+    setLocs(locsList)
+  }
 
-    const getLocationsWithGraphQL = async () => {
-      let locsList : Localization[] = []
-      try {
-        const apiGqlUrl = env.API_GRAPH_QL;
-        const response = await fetch(apiGqlUrl, {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                query: `query {
-                    localizations {
-                      id,name,latitude,longitude,pinColor
-                    }
-                  }`,
-            })
-        }); // POST
-        const { data } = await response.json()
-        locsList = data.localizations
-        setLocs(locsList)
-        //setLocs(data.localizations);
-    } catch (error) {
-        console.log("Falha na requisição")
-    } 
-    }
-
-    const handleEditOption = () => {
-      setEditLocalization(true)
-      router.push('/addEdit');
-    };
-
-    const handleMapOption = (item : Localization) => {
-      router.replace({
-        pathname: '/map',
-        params: {
-          latitude: item.latitude,
-          longitude: item.longitude,
-        }
-      })
-    }
-
-    const showActionDialog = (item : Localization) => {
-      Alert.alert(
-        "Ação", // Título
-        "Selecione a ação que deseja tomar", // Mensagem
-        [
-          {
-            text: "Ver no Mapa", // Botão de cancelar
-            onPress: () => {
-              handleMapOption(item)
-            },
-            style: "cancel"
-          },
-          {
-            text: "Editar", // Botão de ação
-            onPress: () => handleEditOption()
-          }
-        ],
-        { cancelable: true } // Se o diálogo pode ser fechado ao clicar fora dele
-      );
+  const handleEditOption = () => {
+    setEditLocalization(true)
+    router.push('/addEdit');
   };
 
-    const ListItem = ( { item }: { item: Localization }) => {
-      return (
-        <TouchableOpacity 
-        style={styles.container} 
-        onPress={() => {
-            setLocalization(item);
-            showActionDialog(item)
-          }
-        }>
-          <Icon name="map-marker" size={40} color={item.pinColor} style={styles.icon} />
-          <View style={styles.textContainer}>
-            <Text style={styles.primaryText}>{item.name}</Text>
-            <Text style={styles.secondaryText}>Lat: {item.latitude} Lon: {item.longitude}</Text>
-          </View>
-        </TouchableOpacity>
-      );
-    };
-    
-    return(
-        <Container>
-            <FlatList
-                data={locs}
-                renderItem={({item}) => <ListItem item={item}/>}
-                keyExtractor={item => item.id}
-            />
-        </Container>
-    )
+  const handleMapOption = (item : Localization) => {
+    router.replace({
+      pathname: '/map',
+      params: {
+        latitude: item.latitude,
+        longitude: item.longitude,
+      }
+    })
+  }
+
+  const showActionDialog = (item : Localization) => {
+    Alert.alert(
+      "Ação", // Título
+      "Selecione a ação que deseja tomar", // Mensagem
+      [
+        {
+          text: "Ver no Mapa", // Botão de cancelar
+          onPress: () => {
+            handleMapOption(item)
+          },
+          style: "cancel"
+        },
+        {
+          text: "Editar", // Botão de ação
+          onPress: () => handleEditOption()
+        }
+      ],
+      { cancelable: true } // Se o diálogo pode ser fechado ao clicar fora dele
+    );
+};
+
+  const ListItem = ( { item }: { item: Localization }) => {
+    return (
+      <TouchableOpacity 
+      style={styles.container} 
+      onPress={() => {
+          setLocalization(item);
+          showActionDialog(item)
+        }
+      }>
+        <Icon name="map-marker" size={40} color={item.pinColor} style={styles.icon} />
+        <View style={styles.textContainer}>
+          <Text style={styles.primaryText}>{item.name}</Text>
+          <Text style={styles.secondaryText}>Lat: {item.latitude} Lon: {item.longitude}</Text>
+        </View>
+      </TouchableOpacity>
+    );
+  };
+  
+  return(
+      <Container>
+          <FlatList
+              data={locs}
+              renderItem={({item}) => <ListItem item={item}/>}
+              keyExtractor={item => item.id}
+          />
+      </Container>
+  )
 }
 
 const styles = StyleSheet.create({
