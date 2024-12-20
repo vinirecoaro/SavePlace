@@ -4,7 +4,9 @@ import { UserActionType, UserContext, UserDispatchContext } from "@/store/UserSt
 import { ButtonConstants, FontConstants, ScreenConstants } from "@/styles/Global.style";
 import { router } from "expo-router";
 import { useContext, useState } from "react";
-import { ActivityIndicator, Pressable, Text, View, StyleSheet, Alert } from "react-native";
+import { ActivityIndicator, Pressable, StyleSheet, Alert } from "react-native";
+import { Text, View} from "native-base"
+
 
 export default function RegisterScreen(){
 

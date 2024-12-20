@@ -1,4 +1,5 @@
-import { ActivityIndicator, Alert, Image, Pressable, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, Alert, Image, Pressable, StyleSheet} from 'react-native';
+import { Text, View} from "native-base"
 import TextField from '@/components/TextField';
 import { useContext, useState } from 'react';
 import { router } from 'expo-router';

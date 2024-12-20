@@ -1,5 +1,5 @@
 import { StyleSheet, TouchableOpacity, Alert } from "react-native";
-import {NativeBaseProvider, Text, View, FlatList} from "native-base"
+import { Text, View, FlatList} from "native-base"
 import { Container } from "./styles";
 import Icon from "react-native-vector-icons/FontAwesome";
 import Localization from "@/model/localization";
@@ -85,16 +85,13 @@ export default function LocalizationList(){
   };
   
   return(
-    <NativeBaseProvider>
       <Container>
           <FlatList
               data={locs}
               renderItem={({item}) => <ListItem item={item}/>}
               keyExtractor={item => item.id}
           />
-      </Container>
-    </NativeBaseProvider>
-      
+      </Container>      
   )
 }
 

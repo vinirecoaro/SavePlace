@@ -6,6 +6,7 @@ import { TouchableOpacity, useColorScheme, View } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import UserProvider from '@/store/UserStore';
 import { LocalizationsListProvider } from '@/contexts/localizationsListContext';
+import { NativeBaseProvider } from 'native-base';
 
 export default function Layout() {
 
@@ -15,7 +16,8 @@ export default function Layout() {
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <LocalizationsListProvider>
         <EditLocalizationProvider>
-          <LocalizationProvider>
+        <NativeBaseProvider>
+        <LocalizationProvider>
             <UserProvider>
               <Stack
               screenOptions={{
@@ -53,6 +55,7 @@ export default function Layout() {
               </Stack>
             </UserProvider>
           </LocalizationProvider>
+          </NativeBaseProvider>     
         </EditLocalizationProvider>
       </LocalizationsListProvider>
     </ThemeProvider>

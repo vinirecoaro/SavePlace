@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Container } from "./styles";
 import { TextInput, StyleSheet, Button, Alert } from 'react-native'
-import { CheckIcon, NativeBaseProvider, Select, View } from "native-base";
+import { CheckIcon, Select, View } from "native-base";
 import { useLocalization } from "@/contexts/localization";
 import { useEditLocalization } from "@/contexts/editLocalization";
 import { useNavigation } from "expo-router";
@@ -128,7 +128,6 @@ export default function AddEditScreen(){
       }, []);
 
     return(
-        <NativeBaseProvider>          
             <Container>
                 <TextInput
                     style={styles.input}
@@ -190,7 +189,6 @@ export default function AddEditScreen(){
                 </View>
                 
             </Container>
-        </NativeBaseProvider>
     )    
 }
 
