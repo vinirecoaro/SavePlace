@@ -11,24 +11,21 @@ import { router } from "expo-router";
 import { CheckIcon, NativeBaseProvider, Select } from "native-base";
 import * as Location from 'expo-location';
 import { FontConstants, InputConstants } from "@/styles/Global.style";
+import { useLocalizationsList } from "@/contexts/localizationsListContext";
 
 
 export default function AddEditScreen(){
-    const [name, setName] = useState('')
-    const [latitude, setLatitude] = useState('')
-    const [longitude, setLongitude] = useState('')
-    const [pinColor, setPinColor] = useState('')
+    const [name, setName] = useState('Torre Eiffel')
+    const [latitude, setLatitude] = useState('48.858844')
+    const [longitude, setLongitude] = useState('2.294351')
+    const [pinColor, setPinColor] = useState('green')
     const [locs, setLocs] = useState<Array<Localization>>([])
     const { localization } = useLocalization();
     const { editLocalization } = useEditLocalization();
     const navigation = useNavigation();
+    const {addLocalization} = useLocalizationsList()
 
     const handleAddLoc = async () => {
-        let locsList : Localization[] = []
-        const locsStorage = await AsyncStorage.getItem('markers');
-        if (locsStorage){
-            locsList = JSON.parse(locsStorage)
-        }
         const loc: Localization = new Localization(
             name+latitude+longitude+pinColor, 
             name,
@@ -36,9 +33,7 @@ export default function AddEditScreen(){
             longitude, 
             pinColor
         )
-        locsList.push(loc)
-        setLocs(locsList)
-        AsyncStorage.setItem('markers', JSON.stringify(locsList));
+        addLocalization(loc)
         setName('')
         setLatitude('')
         setLongitude('')

@@ -1,11 +1,12 @@
 import Localization from "@/model/localization";
-import { fetchLocalizations } from "@/services/localizationAPIService";
+import { fetchLocalizations, postLocalization } from "@/services/localizationAPIService";
 import { createContext, useCallback, useContext, useState } from "react";
 
 // Define the context type
 interface LocalizationsListContextType {
     localizations: Localization[];
     loadLocalizations: () => Promise<void>;
+    addLocalization: (newLocalization: Localization) => Promise<void>;
 }
 
 const LocalizationsListContext = createContext<LocalizationsListContextType | undefined>(undefined)
@@ -22,9 +23,13 @@ export const LocalizationsListProvider = ({children} : { children: React.ReactNo
             console.error('Erro ao carregar itens:', error);
         }
     },[])
+
+    const addLocalization = useCallback( async (newLocalization : Localization) => {
+       await postLocalization(newLocalization)
+    },[])
     
     return(
-        <LocalizationsListContext.Provider value={{ localizations, loadLocalizations }}>
+        <LocalizationsListContext.Provider value={{ localizations, loadLocalizations, addLocalization }}>
             {children}
         </LocalizationsListContext.Provider>
     )
