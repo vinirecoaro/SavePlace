@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Container } from "./styles";
-import { TextInput, StyleSheet, Button, View, Alert } from 'react-native'
+import { TextInput, StyleSheet, Button, Alert } from 'react-native'
+import { CheckIcon, NativeBaseProvider, Select, View } from "native-base";
 import { useLocalization } from "@/contexts/localization";
 import { useEditLocalization } from "@/contexts/editLocalization";
 import { useNavigation } from "expo-router";
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import Localization from "@/model/localization";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { router } from "expo-router";
-import { CheckIcon, NativeBaseProvider, Select } from "native-base";
 import * as Location from 'expo-location';
 import { FontConstants, InputConstants } from "@/styles/Global.style";
 import { useLocalizationsList } from "@/contexts/localizationsListContext";
@@ -129,68 +128,69 @@ export default function AddEditScreen(){
       }, []);
 
     return(
-        <Container>
-             <TextInput
-                style={styles.input}
-                value={name}
-                placeholder="Nome da Localização"
-                placeholderTextColor={FontConstants.placeHolderTextColor}
-                onChangeText={setName}
-            />
-            <TextInput
-                style={styles.input}
-                value={latitude}
-                placeholder="Latitude"
-                placeholderTextColor={FontConstants.placeHolderTextColor}
-                onChangeText={setLatitude}
-            />
-            <TextInput
-                style={styles.input}
-                value={longitude}
-                placeholder="Longitude"
-                placeholderTextColor={FontConstants.placeHolderTextColor}
-                onChangeText={setLongitude}
-            />
-            <NativeBaseProvider>
-                
-                <Select 
-                style={styles.input} 
-                selectedValue={pinColor} 
-                accessibilityLabel="Cor do Marcador" 
-                placeholder="Cor do Marcador"
-                variant="unstyled"
-                placeholderTextColor={FontConstants.placeHolderTextColor}
-                _selectedItem={{
-                    bg: "teal.600",
-                    endIcon: <CheckIcon size="5" />
-                }} 
-                mt={1} onValueChange={itemValue => setPinColor(itemValue)}>
-                <Select.Item label="Blue" value="blue" />
-                <Select.Item label="Red" value="red" />
-                <Select.Item label="Green" value="green" />
-                <Select.Item label="Yellow" value="yellow" />
-                <Select.Item label="Purple" value="purple" />
-                </Select>
-                    
-            </NativeBaseProvider>
-            
-            <View
-            style={styles.button}
-            >
-                <Button
-                    title="Salvar"
-                    color="#f4511e"
-                    onPress={() => {
-                        if(editLocalization){
-                            handleUpdateLoc()
-                        }else{
-                            handleAddLoc()
-                        }
-                    }}
+        <NativeBaseProvider>          
+            <Container>
+                <TextInput
+                    style={styles.input}
+                    value={name}
+                    placeholder="Nome da Localização"
+                    placeholderTextColor={FontConstants.placeHolderTextColor}
+                    onChangeText={setName}
                 />
-            </View>
+                <TextInput
+                    style={styles.input}
+                    value={latitude}
+                    placeholder="Latitude"
+                    placeholderTextColor={FontConstants.placeHolderTextColor}
+                    onChangeText={setLatitude}
+                />
+                <TextInput
+                    style={styles.input}
+                    value={longitude}
+                    placeholder="Longitude"
+                    placeholderTextColor={FontConstants.placeHolderTextColor}
+                    onChangeText={setLongitude}
+                />
             
-        </Container>
+                    <Select 
+                    style={styles.input} 
+                    selectedValue={pinColor} 
+                    accessibilityLabel="Cor do Marcador" 
+                    placeholder="Cor do Marcador"
+                    variant="unstyled"
+                    placeholderTextColor={FontConstants.placeHolderTextColor}
+                    _selectedItem={{
+                        bg: "teal.600",
+                        endIcon: <CheckIcon size="5" />
+                    }} 
+                    mt={1} onValueChange={itemValue => setPinColor(itemValue)}>
+                    <Select.Item label="Blue" value="blue" />
+                    <Select.Item label="Red" value="red" />
+                    <Select.Item label="Green" value="green" />
+                    <Select.Item label="Yellow" value="yellow" />
+                    <Select.Item label="Purple" value="purple" />
+                    </Select>
+                        
+                
+                
+                <View
+                style={styles.button}
+                >
+                    <Button
+                        title="Salvar"
+                        color="#f4511e"
+                        onPress={() => {
+                            if(editLocalization){
+                                handleUpdateLoc()
+                            }else{
+                                handleAddLoc()
+                            }
+                        }}
+                    />
+                </View>
+                
+            </Container>
+        </NativeBaseProvider>
     )    
 }
 

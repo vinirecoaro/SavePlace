@@ -1,11 +1,12 @@
-import { FlatList, StyleSheet, TouchableOpacity, View, Text, Alert } from "react-native";
+import { StyleSheet, TouchableOpacity, Alert } from "react-native";
+import {NativeBaseProvider, Text, View, FlatList} from "native-base"
 import { Container } from "./styles";
 import Icon from "react-native-vector-icons/FontAwesome";
 import Localization from "@/model/localization";
 import { router, useFocusEffect } from "expo-router";
 import { useLocalization } from "@/contexts/localization";
 import { useEditLocalization } from "@/contexts/editLocalization";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { FontConstants } from "@/styles/Global.style";
 import { useLocalizationsList } from "@/contexts/localizationsListContext";
 
@@ -84,6 +85,7 @@ export default function LocalizationList(){
   };
   
   return(
+    <NativeBaseProvider>
       <Container>
           <FlatList
               data={locs}
@@ -91,6 +93,8 @@ export default function LocalizationList(){
               keyExtractor={item => item.id}
           />
       </Container>
+    </NativeBaseProvider>
+      
   )
 }
 
