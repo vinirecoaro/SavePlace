@@ -65,3 +65,44 @@ export async function postLocalization( newLocalization : Localization){
     }
 }
 
+export async function changeLocalization(updatedLocalization : Localization){
+    try {
+        const response = await fetch(apiGqlUrl,{
+            method:"POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                query: `mutation($localization: updateLocalizationInput) { 
+                updateLocalization(localization: $localization) { 
+                    id,
+                    name,
+                    latitude,
+                    longitude,
+                    pinColor
+                    }
+                }`, 
+                variables: {
+                    localization: {
+                        id: updatedLocalization.id,
+                        name: updatedLocalization.name,
+                        latitude: updatedLocalization.latitude,
+                        longitude: updatedLocalization.longitude,
+                        pinColor: updatedLocalization.pinColor
+                    }
+                }
+            }),
+        })
+        const updetedLoc : Localization = new Localization(
+            updatedLocalization.id,
+            updatedLocalization.name,
+            updatedLocalization.latitude,
+            updatedLocalization.longitude,
+            updatedLocalization.pinColor
+        )
+        return updetedLoc
+    } catch (error) {
+        console.log(error)
+    }
+}
+

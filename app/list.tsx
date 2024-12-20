@@ -16,9 +16,11 @@ export default function LocalizationList(){
   const [locs, setLocs] = useState<Array<Localization>>([])
   const {localizations, loadLocalizations} = useLocalizationsList()
 
-  useEffect(() => {
-    getLocations()
-  },[loadLocalizations])
+  useFocusEffect(
+    useCallback(() => {
+      getLocations();
+    }, [localizations])
+  );
 
   const getLocations = async () => {
     let locsList : Localization[] = []

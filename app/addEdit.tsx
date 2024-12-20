@@ -15,15 +15,15 @@ import { useLocalizationsList } from "@/contexts/localizationsListContext";
 
 
 export default function AddEditScreen(){
-    const [name, setName] = useState('Torre Eiffel')
-    const [latitude, setLatitude] = useState('48.858844')
-    const [longitude, setLongitude] = useState('2.294351')
-    const [pinColor, setPinColor] = useState('green')
+    const [name, setName] = useState('')
+    const [latitude, setLatitude] = useState('')
+    const [longitude, setLongitude] = useState('')
+    const [pinColor, setPinColor] = useState('')
     const [locs, setLocs] = useState<Array<Localization>>([])
     const { localization } = useLocalization();
     const { editLocalization } = useEditLocalization();
     const navigation = useNavigation();
-    const {addLocalization} = useLocalizationsList()
+    const {addLocalization, updateLocalization} = useLocalizationsList()
 
     const handleAddLoc = async () => {
         const loc: Localization = new Localization(
@@ -41,23 +41,19 @@ export default function AddEditScreen(){
     }
 
     const handleUpdateLoc = async () => {
-        let locsList : Localization[] = []
-        const locsStorage = await AsyncStorage.getItem('markers');
-        if (locsStorage){
-            locsList = JSON.parse(locsStorage)
+        if(localization){
+            const loc: Localization = new Localization(
+                localization.id,
+                name,
+                latitude, 
+                longitude, 
+                pinColor
+            )
+            updateLocalization(loc)
+            router.back()
+        }else{
+            console.log("Falah ao editar localização")
         }
-        const updatedList = locsList.filter(loc => loc.id !== localization!.id);
-        const loc: Localization = new Localization(
-            name+latitude+longitude+pinColor, 
-            name,
-            latitude, 
-            longitude, 
-            pinColor
-        )
-        updatedList.push(loc)
-        setLocs(updatedList)
-        AsyncStorage.setItem('markers', JSON.stringify(updatedList));
-        router.back()
     }
 
     const handleDeleteLoc = async (item : Localization) => {
