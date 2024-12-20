@@ -23,7 +23,7 @@ export default function AddEditScreen(){
     const { localization } = useLocalization();
     const { editLocalization } = useEditLocalization();
     const navigation = useNavigation();
-    const {addLocalization, updateLocalization} = useLocalizationsList()
+    const {addLocalization, updateLocalization, deleteLocalization} = useLocalizationsList()
 
     const handleAddLoc = async () => {
         const loc: Localization = new Localization(
@@ -33,7 +33,7 @@ export default function AddEditScreen(){
             longitude, 
             pinColor
         )
-        addLocalization(loc)
+        await addLocalization(loc)
         setName('')
         setLatitude('')
         setLongitude('')
@@ -49,24 +49,16 @@ export default function AddEditScreen(){
                 longitude, 
                 pinColor
             )
-            updateLocalization(loc)
+            await updateLocalization(loc)
             router.back()
         }else{
-            console.log("Falah ao editar localização")
+            console.log("Falha ao editar localização")
         }
     }
 
     const handleDeleteLoc = async (item : Localization) => {
-        let locsList : Localization[] = []
-        const locsStorage = await AsyncStorage.getItem('markers');
-        if (locsStorage){
-            locsList = JSON.parse(locsStorage)
-            const updatedList = locsList.filter(loc => loc.id !== localization!.id);
-            setLocs(updatedList);
-            await AsyncStorage.setItem('markers', JSON.stringify(updatedList));
-            router.back()
-        }
-
+        await deleteLocalization(item.id)
+        router.back()
     }
 
     const showDeleteDialog = () => {

@@ -19,7 +19,7 @@ export default function LocalizationList(){
   useFocusEffect(
     useCallback(() => {
       getLocations();
-    }, [localizations])
+    }, [])
   );
 
   const getLocations = async () => {

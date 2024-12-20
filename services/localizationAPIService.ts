@@ -106,3 +106,27 @@ export async function changeLocalization(updatedLocalization : Localization){
     }
 }
 
+export async function deleteLocalizationService(locId : String){
+    try {
+        const response = await fetch(apiGqlUrl,{
+            method:"POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                query: `mutation($id: String) { 
+                deleteLocalization(id: $id)  }`, 
+                variables: {
+                    id: locId
+                }
+            }),
+        })
+        const { data } = await response.json()
+        console.log(data)
+        return true
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+

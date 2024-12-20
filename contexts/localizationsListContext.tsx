@@ -1,5 +1,5 @@
 import Localization from "@/model/localization";
-import { changeLocalization, fetchLocalizations, postLocalization } from "@/services/localizationAPIService";
+import { changeLocalization, deleteLocalizationService, fetchLocalizations, postLocalization } from "@/services/localizationAPIService";
 import { createContext, useCallback, useContext, useState } from "react";
 
 // Define the context type
@@ -8,6 +8,7 @@ interface LocalizationsListContextType {
     loadLocalizations: () => Promise<void>;
     addLocalization: (newLocalization: Localization) => Promise<void>;
     updateLocalization: (newLocalization: Localization) => Promise<void>;
+    deleteLocalization: (locId : String) => Promise<void>;
 }
 
 const LocalizationsListContext = createContext<LocalizationsListContextType | undefined>(undefined)
@@ -33,12 +34,16 @@ export const LocalizationsListProvider = ({children} : { children: React.ReactNo
        await postLocalization(newLocalization)
     },[])
 
-    const updateLocalization = useCallback( async (updatedLocalization:Localization) => {
+    const updateLocalization = useCallback( async (updatedLocalization : Localization) => {
         await changeLocalization(updatedLocalization)
+    },[])
+
+    const deleteLocalization = useCallback( async (locId : String) => {
+        await deleteLocalizationService(locId)
     },[])
     
     return(
-        <LocalizationsListContext.Provider value={{ localizations, loadLocalizations, addLocalization, updateLocalization }}>
+        <LocalizationsListContext.Provider value={{ localizations, loadLocalizations, addLocalization, updateLocalization, deleteLocalization }}>
             {children}
         </LocalizationsListContext.Provider>
     )
