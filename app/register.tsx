@@ -1,12 +1,10 @@
 import TextField from "@/components/TextField";
-import env from "@/constants/env";
 import { UserActionType, UserContext, UserDispatchContext } from "@/store/UserStore";
 import { ButtonConstants, FontConstants, ScreenConstants } from "@/styles/Global.style";
 import { router } from "expo-router";
 import { useContext, useState } from "react";
 import { ActivityIndicator, Pressable, StyleSheet, Alert } from "react-native";
 import { Text, View} from "native-base"
-
 
 export default function RegisterScreen(){
 
@@ -25,8 +23,8 @@ export default function RegisterScreen(){
             setInputUserFeedback("");
             setInputPasswordFeedback("");
             if (inputUser && inputPassword) {
-                const apiKey = env.API_KEY;
-                const apiUrl = env.API_URL;
+                const apiKey = "AIzaSyCBc2uJCRwp0W1vm_4Fu30kjVeuCED4wps";
+                const apiUrl = "https://identitytoolkit.googleapis.com";
                 const response = await fetch(`${apiUrl}/v1/accounts:signUp?key=${apiKey}`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },

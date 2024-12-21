@@ -5,7 +5,6 @@ import { useContext, useState } from 'react';
 import { router } from 'expo-router';
 import { ButtonConstants, ScreenConstants, FontConstants, IconConstants } from '@/styles/Global.style';
 import { UserActionType, UserContext, UserDispatchContext } from '@/store/UserStore';
-import env from '@/constants/env';
 
 export default function LoginScreen() {
 
@@ -25,8 +24,8 @@ export default function LoginScreen() {
             setInputUserFeedback("");
             setInputPasswordFeedback("");
             if (inputUser && inputPassword) {
-                const apiKey = env.API_KEY;
-                const apiUrl = env.API_URL;
+                const apiKey = "AIzaSyCBc2uJCRwp0W1vm_4Fu30kjVeuCED4wps";
+                const apiUrl = "https://identitytoolkit.googleapis.com";
                 const response = await fetch(`${apiUrl}/v1/accounts:signInWithPassword?key=${apiKey}`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },

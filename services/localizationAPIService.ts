@@ -1,7 +1,6 @@
-import env from '@/constants/env';
 import Localization from "@/model/localization";
 
-const apiGqlUrl = env.API_GRAPH_QL;
+const apiGqlUrl = "http://192.168.0.62:4000";
 
 export async function fetchLocalizations() {
  let locsList : Localization[] = []
