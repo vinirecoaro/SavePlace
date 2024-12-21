@@ -21,6 +21,7 @@ export const LocalizationsListProvider = ({children} : { children: React.ReactNo
         try {
             const fetchedLocalizations = await fetchLocalizations()
             if(fetchedLocalizations){
+                console.log(fetchedLocalizations)
                 setLocalizations(fetchedLocalizations)
             }else{
                 console.error("localizações nulas");

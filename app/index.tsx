@@ -100,7 +100,7 @@ export default function LoginScreen() {
                 <Text style={styles.loginBtnSubmitLabel}>Acessar</Text>
             </Pressable>}
             {isLoading && <ActivityIndicator size='large'/>}
-            <Text onPress={goToRegister}>Não tem conta? Cadastre-se</Text>
+            <Text style={styles.subtitle} onPress={goToRegister}>Não tem conta? Cadastre-se</Text>
         </View>
     );
 }
@@ -145,6 +145,11 @@ const styles = StyleSheet.create({
     },
     loginBtnSubmitLabel: {
         fontSize: 20,
+        textAlign: 'center',
+        color: ButtonConstants.textColor,
+    },
+    subtitle: {
+        fontSize: 14,
         textAlign: 'center',
         color: ButtonConstants.textColor,
     }

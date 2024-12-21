@@ -1,6 +1,6 @@
 import Localization from "@/model/localization";
 
-const apiGqlUrl = "http://192.168.0.62:4000";
+const apiGqlUrl = "http://192.168.52.1:4000";
 
 export async function fetchLocalizations() {
  let locsList : Localization[] = []
@@ -20,6 +20,7 @@ export async function fetchLocalizations() {
          }); // POST
          const { data } = await response.json()
          locsList = data.localizations
+        
          return locsList
      } catch (error) {
          console.log("Falha ao buscar localizações")
